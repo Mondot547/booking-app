@@ -1,23 +1,66 @@
 <div class="login-container">
-    <h2>Connexion</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" formControlName="email" type="email">
-            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                <small>Email invalide</small>
-            </div>
+    <h2 *ngIf="!isRegisterMode">Connexion</h2>
+    <h2 *ngIf="isRegisterMode">Créer un compte</h2>
+  
+    <!-- Formulaire de connexion -->
+    <form *ngIf="!isRegisterMode" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" />
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <small>Email invalide</small>
         </div>
-        <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <input id="password" formControlName="password" type="password" />
-            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                <small>Le mot de passe doit contenir au moins 6 caractères</small>
-            </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input id="password" formControlName="password" type="password" />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <small>Le mot de passe doit contenir au moins 6 caractères</small>
         </div>
-        <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+      </div>
+  
+      <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
     </form>
-    <div *ngIf="errorMessage" class="error">
-        {{ errorMessage }}
-    </div>
-</div>
+  
+    <!-- Formulaire d'inscription -->
+    <form *ngIf="isRegisterMode" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <div class="form-group">
+        <label for="name">Nom</label>
+        <input id="name" formControlName="name" type="text" />
+        <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+          <small>Le nom est requis</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" />
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          <small>Email invalide</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input id="password" formControlName="password" type="password" />
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          <small>Le mot de passe doit contenir au moins 6 caractères</small>
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="registerForm.invalid">Créer un compte</button>
+    </form>
+  
+    <!-- Messages d'erreur ou de succès -->
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+  
+    <!-- Basculer entre connexion et inscription -->
+    <p>
+      <a (click)="toggleMode()">
+        {{ isRegisterMode ? 'Déjà inscrit ? Connectez-vous' : 'Pas de compte ? Inscrivez-vous' }}
+      </a>
+    </p>
+  </div>
+  

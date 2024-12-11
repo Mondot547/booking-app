@@ -25,6 +25,11 @@ export class AuthService {
     );
   }
 
+  register(user: { name: string; email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user); // URL corrigée
+  }
+  
+
   // Méthode pour sauvegarder le token
   saveToken(token: string): void {
     localStorage.setItem('authToken', token);
